@@ -35,6 +35,20 @@ window.LOOKS = {
     { id: 11, no: '11', slug: 'cropped-boxy',      name: 'Cropped Boxy Hoodie',fit: 'Cropped fit',    gsm: '450 GSM', material: 'Premium cotton', color: 'Taupe',          hex: '#6b625a', tags: ['boxy'],               delta: 0,   badge: '' },
     { id: 12, no: '12', slug: 'signature',         name: 'Signature Hoodie',   fit: 'Oversized fit',  gsm: '450 GSM', material: 'Premium cotton', color: 'Ecru',           hex: '#ece5d6', tags: ['oversized'],          delta: 200, badge: 'Signature' }
   ].map(function (p) {
+    p.desc = {
+      1: 'Základ kolekce. Černá oversized mikina s výšivkou looks na hrudi.',
+      2: 'Uhlová mikina s vintage wash úpravou, která jí dává sepraný vzhled.',
+      3: 'Boxy střih, kratší a širší než oversized. Čokoládově hnědá.',
+      4: 'Krémová oversized mikina s tmavou výšivkou looks.',
+      5: 'Šedý melír v oversized střihu. Nejuniverzálnější kus kolekce.',
+      6: 'Tmavě modrá oversized mikina s výšivkou v tónu látky.',
+      7: 'Lesní zelená se světlou výšivkou looks na hrudi.',
+      8: 'Sepraná černá s vintage wash úpravou. Tmavší sestra Washed Charcoal.',
+      9: 'Černá mikina na celý zip v oversized střihu.',
+      10: 'Nejtěžší kus kolekce. 500 GSM a strukturovaný střih, který drží tvar.',
+      11: 'Zkrácená boxy mikina v barvě taupe.',
+      12: 'Ecru mikina s prošitými liniemi na předním dílu a oválným logem.'
+    }[p.id];
     p.life = 'img/life-' + p.no + '.jpg';
     p.flat = 'img/flat-' + p.no + '.jpg';
     return p;

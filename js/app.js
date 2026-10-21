@@ -128,7 +128,6 @@
           '<img class="card__life" src="' + p.life + '" alt="' + esc(p.name) + ' — na modelu" loading="lazy">' +
           '<img class="card__flat" src="' + p.flat + '" alt="" loading="lazy">' +
         '</a>' +
-        (p.badge ? '<span class="badge">' + esc(p.badge) + '</span>' : '') +
         '<button type="button" class="quick" data-quick="' + p.id + '" aria-label="Přidat ' + esc(p.name) + ' ve velikosti M do košíku">' + icons.plus + '</button>' +
       '</div>' +
       '<div class="card__info">' +
@@ -141,34 +140,32 @@
 
   function viewHome() {
     var list = D.PRODUCTS.filter(function (p) { return state.filter === 'all' || p.tags.indexOf(state.filter) >= 0; });
-    var tickItems = ['Oversized fit', '450 GSM', 'Vintage wash', 'Premium cotton', 'Prague'];
-    var tick = tickItems.map(function (t) { return '<span class="script">Looks Studio</span><span class="caps">' + t + '</span>'; }).join('');
+    var heroPics = [byId(1), byId(4), byId(12)];
     return '' +
     '<section class="hero">' +
-      pattern(5, 3) +
-      '<div class="wrap hero__inner">' +
-        '<div class="frame">' +
-          '<p class="eyebrow">Drop 01 · 12 mikin</p>' +
-          '<h1 class="script hero__logo">Looks Studio</h1>' +
-          '<span class="rule" aria-hidden="true"></span>' +
-          '<p class="caps">For the look</p>' +
-          seal() +
+      '<div class="hero__stage">' +
+        pattern(4, 3) +
+        '<div class="wrap hero__inner">' +
+          '<div class="frame">' +
+            '<h1 class="script hero__logo">Looks Studio</h1>' +
+            '<span class="rule" aria-hidden="true"></span>' +
+            '<p class="caps">For the look</p>' +
+            seal() +
+          '</div>' +
         '</div>' +
-        '<div class="hero__foot">' +
-          '<p class="hero__lead">Prémiové mikiny 450–500 GSM z Prahy. Oversized, boxy i vintage wash. Různé styly, stejný mindset.</p>' +
-          '<div class="hero__cta"><a class="btn btn--light" href="#/" data-scroll="shop">Nakupovat kolekci ' + icons.arrow + '</a>' +
-          '<a class="btn btn--line" href="#/" data-scroll="lookbook">Lookbook</a></div>' +
-        '</div>' +
+      '</div>' +
+      '<div class="wrap hero__foot">' +
+        '<p class="hero__lead">Mikiny z těžké bavlny, 450 a 500 GSM. Navrženo v Praze.</p>' +
+        '<a class="btn btn--light" href="#/" data-scroll="shop">Kolekce</a>' +
       '</div>' +
       '<div class="hero__pics">' +
-        '<img src="img/life-01.jpg" alt="Model v mikině Black Essential v pražských ulicích">' +
-        '<img src="img/life-04.jpg" alt="Modelka v mikině Cream Minimal">' +
-        '<img src="img/life-12.jpg" alt="Model v mikině Signature Hoodie">' +
+        heroPics.map(function (p) {
+          return '<a href="#/produkt/' + p.slug + '" class="hero__pic"><img src="' + p.life + '" alt="' + esc(p.name) + '"><span>' + esc(p.name) + '</span></a>';
+        }).join('') +
       '</div>' +
     '</section>' +
-    '<div class="ticker" aria-hidden="true"><div class="ticker__track">' + tick + tick + '</div></div>' +
     '<section class="wrap section" id="shop">' +
-      '<div class="section__head"><div><p class="eyebrow">Drop 01</p><h2 class="h2">Kolekce <em>mikin</em></h2></div><span class="count">' + list.length + ' / 12</span></div>' +
+      '<div class="section__head"><h2 class="h2">Kolekce</h2><span class="count">' + list.length + ' ' + (list.length === 1 ? 'mikina' : list.length < 5 ? 'mikiny' : 'mikin') + '</span></div>' +
       '<div class="chips" role="group" aria-label="Filtr kolekce">' +
         D.FILTERS.map(function (f) {
           return '<button type="button" class="chip' + (state.filter === f.id ? ' is-on' : '') + '" aria-pressed="' + (state.filter === f.id) + '" data-filter="' + f.id + '">' + f.label + '</button>';
@@ -178,18 +175,20 @@
     '</section>' +
     '<section class="dark" id="lookbook">' +
       '<div class="wrap section">' +
-        '<div class="section__head"><div><p class="eyebrow">Lookbook · Praha</p><h2 class="h2">Různé styly.<br>Stejný <em>mindset.</em></h2></div></div>' +
+        '<div class="section__head"><h2 class="h2">Různé styly.<br>Stejný mindset.</h2><span class="count">Lookbook, Praha</span></div>' +
         '<div class="look">' +
-          '<img src="img/life-06.jpg" alt="Navy Premium na Starém Městě" loading="lazy">' +
-          '<img src="img/life-11.jpg" alt="Cropped Boxy Hoodie" loading="lazy">' +
-          '<img src="img/life-09.jpg" alt="Zip Hoodie" loading="lazy">' +
+          [6, 11, 9].map(function (id) {
+            var p = byId(id);
+            return '<figure><a href="#/produkt/' + p.slug + '"><img src="' + p.life + '" alt="' + esc(p.name) + '" loading="lazy"></a>' +
+              '<figcaption><a href="#/produkt/' + p.slug + '">' + esc(p.name) + '</a><span>' + money(price(p)) + '</span></figcaption></figure>';
+          }).join('') +
         '</div>' +
         '<figure class="strip"><img src="img/kolekce.jpg" alt="Celá kolekce Looks Studio — 12 mikin vedle sebe" loading="lazy"><figcaption class="caps">Celá kolekce · 12 mikin</figcaption></figure>' +
       '</div>' +
     '</section>' +
     '<section class="wrap section about" id="about">' +
       '<div class="about__brand">' + pattern(4, 2) + seal() + '</div>' +
-      '<div class="about__text"><p class="eyebrow">Studio · Praha</p>' +
+      '<div class="about__text">' +
       '<p>Vlastní oblečení z Prahy. Těžká bavlna, čistý střih a jemná výšivka <em>looks</em> na hrudi. Každá mikina přijde v černé krabici s naší pečetí.</p>' +
       '<form class="news" data-news>' +
         '<label class="eyebrow" for="news-email">Buď první u dalšího dropu</label>' +
@@ -202,7 +201,11 @@
     var p = bySlug(slug);
     if (!p) return viewNotFound();
     var sel = viewProduct.size || null;
-    var related = [1, 2, 3, 4].map(function (k) { return byId(((p.id - 1 + k) % 12) + 1); });
+    // podobné = sdílí střih/úpravu, doplněno ostatními
+    var others = D.PRODUCTS.filter(function (x) { return x.id !== p.id; });
+    var score = function (x) { return x.tags.filter(function (t) { return p.tags.indexOf(t) >= 0 && t !== 'oversized'; }).length * 2 + (x.fit === p.fit ? 1 : 0); };
+    var related = others.slice().sort(function (a, b) { return score(b) - score(a) || a.id - b.id; }).slice(0, 4);
+    var minShip = Math.min.apply(null, D.SHIPPING.filter(function (s) { return s.price > 0; }).map(function (s) { return s.price; }));
     return '' +
     '<section class="wrap pdp">' +
       '<nav class="crumbs" aria-label="Drobečková navigace"><a href="#/" data-scroll="shop">Kolekce</a><span>/</span><span>' + esc(p.name) + '</span></nav>' +
@@ -218,14 +221,15 @@
           '<p class="eyebrow">' + p.no + ' / 12</p>' +
           '<h1 class="pdp__title">' + esc(p.name) + '</h1>' +
           '<p class="pdp__price">' + money(price(p)) + '</p>' +
-          '<div class="tags"><span>' + esc(p.fit) + '</span><span>' + p.gsm + '</span><span>' + esc(p.material) + '</span></div>' +
+          '<p class="pdp__desc">' + esc(p.desc) + '</p>' +
           '<p class="pdp__color"><span class="dot" style="background:' + p.hex + '"></span>Barva: <strong>' + esc(p.color) + '</strong></p>' +
           '<fieldset class="sizes"><legend class="eyebrow">Velikost</legend><div class="sizes__row">' +
             D.SIZES.map(function (s) {
               return '<button type="button" class="size' + (sel === s ? ' is-on' : '') + '" aria-pressed="' + (sel === s) + '" data-size="' + s + '">' + s + '</button>';
             }).join('') +
           '</div>' + (err ? '<p class="error" role="alert">Vyber prosím velikost.</p>' : '') + '</fieldset>' +
-          '<button type="button" class="btn btn--light btn--block btn--lg" data-add="' + p.id + '">Přidat do košíku · ' + money(price(p)) + '</button>' +
+          '<button type="button" class="btn btn--light btn--block btn--lg" data-add="' + p.id + '">Přidat do košíku</button>' +
+          '<p class="pdp__note">Doprava od ' + money(minShip) + ', osobní odběr v Praze zdarma. <a href="#/info/vraceni">Vrácení do 14 dnů</a> · <a href="#/info/velikosti">Tabulka velikostí</a></p>' +
           '<dl class="specs">' +
             '<div><dt>Střih</dt><dd>' + esc(p.fit) + '</dd></div>' +
             '<div><dt>Gramáž</dt><dd>' + p.gsm + '</dd></div>' +
@@ -321,6 +325,30 @@
     '</section>';
   }
 
+  function viewInfo() {
+    return '<section class="wrap info">' +
+      '<a href="#/" class="back">' + icons.back + ' Zpět do obchodu</a>' +
+      '<h1 class="pdp__title">Nákup</h1>' +
+      '<nav class="info__nav" aria-label="Sekce"><a href="#/info/doprava">Doprava a platba</a><a href="#/info/vraceni">Vrácení</a><a href="#/info/velikosti">Velikosti</a></nav>' +
+      '<div class="info__block" id="doprava"><h2>Doprava a platba</h2>' +
+        '<table class="table"><tbody>' +
+          D.SHIPPING.map(function (s) { return '<tr><th scope="row">' + s.label + '</th><td>' + s.sub + '</td><td>' + (s.price ? money(s.price) : 'Zdarma') + '</td></tr>'; }).join('') +
+        '</tbody></table>' +
+        '<p class="muted">Platit můžeš kartou, přes Apple Pay a Google Pay nebo bankovním převodem.</p>' +
+      '</div>' +
+      '<div class="info__block" id="vraceni"><h2>Vrácení</h2>' +
+        '<p>Zboží koupené online můžeš vrátit do 14 dnů od převzetí bez udání důvodu. Mikina musí být nenošená, s visačkou a v původní krabici.</p>' +
+        '<p class="muted">Adresa pro vrácení: [doplnit]</p>' +
+      '</div>' +
+      '<div class="info__block" id="velikosti"><h2>Velikosti</h2>' +
+        '<p class="muted">Střihy jsou oversized. Pro volnější siluetu ber svou běžnou velikost, pro přiléhavější o číslo menší.</p>' +
+        '<div class="table-wrap"><table class="table table--sizes"><thead><tr><th scope="col">Velikost</th><th scope="col">Šířka hrudníku</th><th scope="col">Délka</th><th scope="col">Rukáv</th></tr></thead><tbody>' +
+          D.SIZES.map(function (s) { return '<tr><th scope="row">' + s + '</th><td>[cm]</td><td>[cm]</td><td>[cm]</td></tr>'; }).join('') +
+        '</tbody></table></div>' +
+      '</div>' +
+    '</section>';
+  }
+
   function viewNotFound() {
     return '<section class="wrap center-box"><h1 class="h2">Tady nic není</h1><a class="btn btn--light" href="#/">Domů</a></section>';
   }
@@ -332,6 +360,7 @@
     if (parts[0] === 'produkt') return { name: 'product', slug: parts[1] };
     if (parts[0] === 'pokladna') return { name: 'checkout' };
     if (parts[0] === 'hotovo') return { name: 'done' };
+    if (parts[0] === 'info') return { name: 'info', sub: parts[1] };
     return { name: 'home' };
   }
 
@@ -341,6 +370,7 @@
     var html = r.name === 'product' ? viewProduct(r.slug, opts && opts.err)
       : r.name === 'checkout' ? viewCheckout()
       : r.name === 'done' ? viewDone()
+      : r.name === 'info' ? viewInfo()
       : viewHome();
     app.innerHTML = html;
     var co = app.querySelector('[data-checkout]');
@@ -350,6 +380,8 @@
   function onRoute() {
     viewProduct.size = null;
     render();
+    var r = route();
+    if (r.name === 'info' && r.sub) pendingScroll = r.sub;
     if (pendingScroll) {
       var el = document.getElementById(pendingScroll);
       pendingScroll = null;
@@ -443,5 +475,5 @@
 
   window.addEventListener('hashchange', onRoute);
   renderCart();
-  render();
+  onRoute();
 })();
