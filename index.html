@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LOOKS — For the looks</title>
+  <meta name="description" content="LOOKS Studio — prémiové mikiny navržené v Praze.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="announce">Drop 01 je venku — 12 mikin, navrženo v Praze</div>
+
+  <header class="header">
+    <div class="wrap header__inner">
+      <a href="#/" class="logo" aria-label="LOOKS — domů">LOOKS</a>
+      <nav class="nav" aria-label="Hlavní navigace">
+        <a href="#/" data-scroll="shop">Mikiny</a>
+        <a href="#/" data-scroll="lookbook">Lookbook</a>
+        <a href="#/" data-scroll="about">O nás</a>
+      </nav>
+      <button class="cart-btn" type="button" data-open-cart aria-label="Otevřít košík">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span>Košík</span>
+        <span class="cart-btn__count" data-cart-count>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <div class="footer__logo">LOOKS</div>
+        <p class="footer__tag">For the looks</p>
+      </div>
+      <div class="footer__cols">
+        <div>
+          <h3>Nákup</h3>
+          <a href="#/">Doprava a platba</a>
+          <a href="#/">Vrácení zboží</a>
+          <a href="#/">Velikosti</a>
+        </div>
+        <div>
+          <h3>LOOKS</h3>
+          <a href="#/" data-scroll="about">O nás</a>
+          <a href="#/" data-scroll="lookbook">Lookbook</a>
+          <a href="#/">Kontakt</a>
+        </div>
+        <div>
+          <h3>Sleduj nás</h3>
+          <a href="#/">Instagram</a>
+          <a href="#/">TikTok</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap footer__bottom">
+      <span>© 2026 LOOKS Studio · Praha</span>
+      <span>Prototyp — objednávky se neodesílají</span>
+    </div>
+  </footer>
+
+  <!-- Košík (drawer) -->
+  <div class="drawer" data-drawer hidden>
+    <button class="drawer__backdrop" type="button" data-close-cart aria-label="Zavřít košík"></button>
+    <aside class="drawer__panel" aria-label="Košík">
+      <div class="drawer__head">
+        <h2>Košík <span data-cart-count-text></span></h2>
+        <button class="icon-btn" type="button" data-close-cart aria-label="Zavřít košík">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="drawer__body" data-cart-body></div>
+      <div class="drawer__foot" data-cart-foot></div>
+    </aside>
+  </div>
+
+  <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
+
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
