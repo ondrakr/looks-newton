@@ -19,7 +19,8 @@
     try { localStorage.setItem('looks-cart', JSON.stringify(state.cart)); } catch (e) { /* ignore */ }
   }
   function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' Kč'; }
-  function price(p) { return D.BASE_PRICE + p.delta; }
+  function price(p) { return D.PRICE[p.category]; }
+  function kusu(n) { return n + ' ' + (n === 1 ? 'kus' : n < 5 ? 'kusy' : 'kusů'); }
   function byId(id) { return D.PRODUCTS.find(function (p) { return p.id === id; }); }
   function bySlug(s) { return D.PRODUCTS.find(function (p) { return p.slug === s; }); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -92,7 +93,7 @@
   function lineItem(c) {
     var p = byId(c.id);
     return '<div class="line">' +
-      '<a href="#/produkt/' + p.slug + '" data-close-cart class="line__img"><img src="' + p.flat + '" alt="' + esc(p.name) + '"></a>' +
+      '<a href="#/produkt/' + p.slug + '" data-close-cart class="line__img"><img src="' + p.front + '" alt="' + esc(p.name) + '"></a>' +
       '<div class="line__info">' +
         '<div class="line__top"><a href="#/produkt/' + p.slug + '" data-close-cart class="line__name">' + esc(p.name) + '</a><strong>' + money(price(p) * c.qty) + '</strong></div>' +
         '<p class="muted small">' + esc(p.color) + ' · Velikost ' + c.size + '</p>' +
@@ -125,14 +126,14 @@
     return '<article class="card">' +
       '<div class="card__media">' +
         '<a href="#/produkt/' + p.slug + '" aria-label="Zobrazit ' + esc(p.name) + '">' +
-          '<img class="card__life" src="' + p.life + '" alt="' + esc(p.name) + ' — na modelu" loading="lazy">' +
-          '<img class="card__flat" src="' + p.flat + '" alt="" loading="lazy">' +
+          '<img class="card__life" src="' + p.life + '" alt="' + esc(p.name) + ' na modelu" loading="lazy">' +
+          '<img class="card__flat" src="' + p.front + '" alt="" loading="lazy">' +
         '</a>' +
         '<button type="button" class="quick" data-quick="' + p.id + '" aria-label="Přidat ' + esc(p.name) + ' ve velikosti M do košíku">' + icons.plus + '</button>' +
       '</div>' +
       '<div class="card__info">' +
         '<div><span class="card__no">' + p.no + '</span><a class="card__name" href="#/produkt/' + p.slug + '">' + esc(p.name) + '</a>' +
-        '<p class="muted small">' + esc(p.fit) + ' · ' + p.gsm + '</p></div>' +
+        '<p class="muted small">' + esc(p.fit) + ' · ' + esc(p.color) + '</p></div>' +
         '<strong class="card__price">' + money(price(p)) + '</strong>' +
       '</div>' +
     '</article>';
@@ -140,7 +141,7 @@
 
   function viewHome() {
     var list = D.PRODUCTS.filter(function (p) { return state.filter === 'all' || p.tags.indexOf(state.filter) >= 0; });
-    var heroPics = [byId(1), byId(4), byId(12)];
+    var heroPics = [byId(1), byId(6), byId(16)];
     return '' +
     '<section class="hero">' +
       '<div class="hero__stage">' +
@@ -155,7 +156,7 @@
         '</div>' +
       '</div>' +
       '<div class="wrap hero__foot">' +
-        '<p class="hero__lead">Mikiny z těžké bavlny, 450 a 500 GSM. Navrženo v Praze.</p>' +
+        '<p class="hero__lead">Alpaca Collection. Mikiny, kalhoty, tepláky a trička z alpaky. Navrženo v Praze.</p>' +
         '<a class="btn btn--light" href="#/" data-scroll="shop">Kolekce</a>' +
       '</div>' +
       '<div class="hero__pics">' +
@@ -165,7 +166,7 @@
       '</div>' +
     '</section>' +
     '<section class="wrap section" id="shop">' +
-      '<div class="section__head"><h2 class="h2">Kolekce</h2><span class="count">' + list.length + ' ' + (list.length === 1 ? 'mikina' : list.length < 5 ? 'mikiny' : 'mikin') + '</span></div>' +
+      '<div class="section__head"><h2 class="h2">Kolekce</h2><span class="count">' + kusu(list.length) + '</span></div>' +
       '<div class="chips" role="group" aria-label="Filtr kolekce">' +
         D.FILTERS.map(function (f) {
           return '<button type="button" class="chip' + (state.filter === f.id ? ' is-on' : '') + '" aria-pressed="' + (state.filter === f.id) + '" data-filter="' + f.id + '">' + f.label + '</button>';
@@ -177,19 +178,18 @@
       '<div class="wrap section">' +
         '<div class="section__head"><h2 class="h2">Různé styly.<br>Stejný mindset.</h2><span class="count">Lookbook, Praha</span></div>' +
         '<div class="look">' +
-          [6, 11, 9].map(function (id) {
+          [21, 14, 11].map(function (id) {
             var p = byId(id);
             return '<figure><a href="#/produkt/' + p.slug + '"><img src="' + p.life + '" alt="' + esc(p.name) + '" loading="lazy"></a>' +
               '<figcaption><a href="#/produkt/' + p.slug + '">' + esc(p.name) + '</a><span>' + money(price(p)) + '</span></figcaption></figure>';
           }).join('') +
         '</div>' +
-        '<figure class="strip"><img src="img/kolekce.jpg" alt="Celá kolekce Looks Studio — 12 mikin vedle sebe" loading="lazy"><figcaption class="caps">Celá kolekce · 12 mikin</figcaption></figure>' +
       '</div>' +
     '</section>' +
     '<section class="wrap section about" id="about">' +
       '<div class="about__brand">' + pattern(4, 2) + seal() + '</div>' +
       '<div class="about__text">' +
-      '<p>Vlastní oblečení z Prahy. Těžká bavlna, čistý střih a jemná výšivka <em>looks</em> na hrudi. Každá mikina přijde v černé krabici s naší pečetí.</p>' +
+      '<p>Vlastní oblečení z Prahy. Jedno vlákno, alpaka: hutné úplety na mikiny, jemný jersey na trička a kepr na kalhoty s džínovým střihem. Na každém kousku malá výšivka <em>looks</em>.</p>' +
       '<form class="news" data-news>' +
         '<label class="eyebrow" for="news-email">Buď první u dalšího dropu</label>' +
         '<div class="news__row"><input id="news-email" type="email" required placeholder="tvuj@email.cz" autocomplete="email"><button class="btn btn--light" type="submit">Odebírat</button></div>' +
@@ -203,22 +203,21 @@
     var sel = viewProduct.size || null;
     // podobné = sdílí střih/úpravu, doplněno ostatními
     var others = D.PRODUCTS.filter(function (x) { return x.id !== p.id; });
-    var score = function (x) { return x.tags.filter(function (t) { return p.tags.indexOf(t) >= 0 && t !== 'oversized'; }).length * 2 + (x.fit === p.fit ? 1 : 0); };
+    var score = function (x) { return (x.category === p.category ? 2 : 0) + (x.color === p.color ? 1 : 0); };
     var related = others.slice().sort(function (a, b) { return score(b) - score(a) || a.id - b.id; }).slice(0, 4);
     var minShip = Math.min.apply(null, D.SHIPPING.filter(function (s) { return s.price > 0; }).map(function (s) { return s.price; }));
     return '' +
     '<section class="wrap pdp">' +
-      '<nav class="crumbs" aria-label="Drobečková navigace"><a href="#/" data-scroll="shop">Kolekce</a><span>/</span><span>' + esc(p.name) + '</span></nav>' +
+      '<nav class="crumbs" aria-label="Drobečková navigace"><a href="#/" data-scroll="shop">Kolekce</a><span>/</span><span>' + esc(p.categoryLabel) + '</span><span>/</span><span>' + esc(p.name) + '</span></nav>' +
       '<div class="pdp__grid">' +
         '<div class="gallery">' +
-          '<div class="gallery__main"><img data-main src="' + p.life + '" alt="' + esc(p.name) + '"></div>' +
-          '<div class="gallery__thumbs">' +
-            '<button type="button" class="thumb is-on" data-img="' + p.life + '" aria-label="Fotka na modelu"><img src="' + p.life + '" alt=""></button>' +
-            '<button type="button" class="thumb" data-img="' + p.flat + '" aria-label="Produktová fotka"><img src="' + p.flat + '" alt=""></button>' +
-          '</div>' +
+          '<img src="' + p.life + '" alt="' + esc(p.name) + ' na modelu, Praha">' +
+          '<img src="' + p.front + '" alt="' + esc(p.name) + ' zepředu">' +
+          '<img src="' + p.back + '" alt="' + esc(p.name) + ' zezadu">' +
+          '<img src="' + p.detail + '" alt="Detail výšivky a úpletu">' +
         '</div>' +
         '<div class="pdp__info">' +
-          '<p class="eyebrow">' + p.no + ' / 12</p>' +
+          '<p class="eyebrow">' + esc(p.categoryLabel) + ' · ' + p.no + ' / ' + D.PRODUCTS.length + '</p>' +
           '<h1 class="pdp__title">' + esc(p.name) + '</h1>' +
           '<p class="pdp__price">' + money(price(p)) + '</p>' +
           '<p class="pdp__desc">' + esc(p.desc) + '</p>' +
@@ -232,9 +231,9 @@
           '<p class="pdp__note">Doprava od ' + money(minShip) + ', osobní odběr v Praze zdarma. <a href="#/info/vraceni">Vrácení do 14 dnů</a> · <a href="#/info/velikosti">Tabulka velikostí</a></p>' +
           '<dl class="specs">' +
             '<div><dt>Střih</dt><dd>' + esc(p.fit) + '</dd></div>' +
-            '<div><dt>Gramáž</dt><dd>' + p.gsm + '</dd></div>' +
-            '<div><dt>Materiál</dt><dd>' + esc(p.material) + '</dd></div>' +
-            '<div><dt>Detail</dt><dd>Výšivka <em>looks</em> na hrudi</dd></div>' +
+            '<div><dt>Materiál</dt><dd>Alpaka</dd></div>' +
+            '<div><dt>' + (p.category === 'kalhoty' ? 'Tkanina' : 'Úplet') + '</dt><dd>' + esc(p.texture) + '</dd></div>' +
+            '<div><dt>Logo</dt><dd>' + esc(p.logo) + '</dd></div>' +
             '<div><dt>Původ</dt><dd>Navrženo v Praze</dd></div>' +
           '</dl>' +
         '</div>' +
@@ -294,7 +293,7 @@
           '<h2>Shrnutí</h2>' +
           state.cart.map(function (c) {
             var p = byId(c.id);
-            return '<div class="sline"><img src="' + p.flat + '" alt=""><div><strong>' + esc(p.name) + '</strong><p class="muted small">' + c.size + ' · ' + c.qty + ' ks</p></div><span>' + money(price(p) * c.qty) + '</span></div>';
+            return '<div class="sline"><img src="' + p.front + '" alt=""><div><strong>' + esc(p.name) + '</strong><p class="muted small">' + c.size + ' · ' + c.qty + ' ks</p></div><span>' + money(price(p) * c.qty) + '</span></div>';
           }).join('') +
           '<div class="sum-row"><span>Mezisoučet</span><span>' + money(sub) + '</span></div>' +
           '<div class="sum-row"><span>Doprava · ' + ship.label + '</span><span>' + (ship.price ? money(ship.price) : 'Zdarma') + '</span></div>' +
@@ -341,7 +340,7 @@
         '<p class="muted">Adresa pro vrácení: [doplnit]</p>' +
       '</div>' +
       '<div class="info__block" id="velikosti"><h2>Velikosti</h2>' +
-        '<p class="muted">Střihy jsou oversized. Pro volnější siluetu ber svou běžnou velikost, pro přiléhavější o číslo menší.</p>' +
+        '<p class="muted">Většina kousků má volný střih (oversized, boxy, wide). Ber svou běžnou velikost, pro přiléhavější siluetu o číslo menší.</p>' +
         '<div class="table-wrap"><table class="table table--sizes"><thead><tr><th scope="col">Velikost</th><th scope="col">Šířka hrudníku</th><th scope="col">Délka</th><th scope="col">Rukáv</th></tr></thead><tbody>' +
           D.SIZES.map(function (s) { return '<tr><th scope="row">' + s + '</th><td>[cm]</td><td>[cm]</td><td>[cm]</td></tr>'; }).join('') +
         '</tbody></table></div>' +

@@ -1,20 +1,19 @@
-// LOOKS — data kolekce.
-// Ceny jsou ZATÍM ILUSTRAČNÍ — uprav BASE_PRICE / delta / SHIPPING podle skutečného ceníku.
+// Looks Studio — Alpaca Collection (24 návrhů ze zipu LOOKS Design Studio).
+// CENY JSOU ILUSTRAČNÍ: mikina v cílovém rozpětí 3–4 tis. Kč z briefu, ostatní odhad. Uprav PRICE / SHIPPING.
 window.LOOKS = {
-  BASE_PRICE: 1890, // Kč
+  PRICE: { mikiny: 3490, kalhoty: 2990, teplaky: 2690, tricka: 1490 }, // Kč
   SIZES: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
   FILTERS: [
     { id: 'all', label: 'Vše' },
-    { id: 'oversized', label: 'Oversized' },
-    { id: 'wash', label: 'Vintage wash' },
-    { id: 'boxy', label: 'Boxy & cropped' },
-    { id: 'zip', label: 'Zip' },
-    { id: 'heavy', label: 'Heavyweight' }
+    { id: 'mikiny', label: 'Mikiny' },
+    { id: 'kalhoty', label: 'Kalhoty' },
+    { id: 'teplaky', label: 'Tepláky' },
+    { id: 'tricka', label: 'Trička' }
   ],
   SHIPPING: [
     { id: 'zasilkovna', label: 'Zásilkovna', sub: 'Výdejní místo, 1–2 pracovní dny', price: 79 },
     { id: 'ppl', label: 'PPL kurýr', sub: 'Doručení domů, 1–2 pracovní dny', price: 129 },
-    { id: 'pickup', label: 'Osobní odběr', sub: 'LOOKS Studio, Praha', price: 0 }
+    { id: 'pickup', label: 'Osobní odběr', sub: 'Looks Studio, Praha', price: 0 }
   ],
   PAYMENT: [
     { id: 'card', label: 'Platební karta', sub: 'Visa, Mastercard' },
@@ -22,35 +21,346 @@ window.LOOKS = {
     { id: 'transfer', label: 'Bankovní převod', sub: 'Odešleme po připsání platby' }
   ],
   PRODUCTS: [
-    { id: 1,  no: '01', slug: 'black-essential',   name: 'Black Essential',    fit: 'Oversized fit',  gsm: '450 GSM', material: 'Premium cotton', color: 'Černá',          hex: '#111111', tags: ['oversized'],          delta: 0,   badge: '' },
-    { id: 2,  no: '02', slug: 'washed-charcoal',   name: 'Washed Charcoal',    fit: 'Oversized fit',  gsm: '450 GSM', material: 'Vintage wash',   color: 'Uhlová',         hex: '#3a3a3a', tags: ['oversized', 'wash'],  delta: 100, badge: 'Vintage wash' },
-    { id: 3,  no: '03', slug: 'chocolate-brown',   name: 'Chocolate Brown',    fit: 'Boxy fit',       gsm: '450 GSM', material: 'Premium cotton', color: 'Čokoládová',     hex: '#4a2e22', tags: ['boxy'],               delta: 0,   badge: '' },
-    { id: 4,  no: '04', slug: 'cream-minimal',     name: 'Cream Minimal',      fit: 'Oversized fit',  gsm: '450 GSM', material: 'Premium cotton', color: 'Krémová',        hex: '#e8e1d3', tags: ['oversized'],          delta: 0,   badge: '' },
-    { id: 5,  no: '05', slug: 'ash-grey',          name: 'Ash Grey',           fit: 'Oversized fit',  gsm: '450 GSM', material: 'Premium cotton', color: 'Šedý melír',     hex: '#b9b9b9', tags: ['oversized'],          delta: 0,   badge: '' },
-    { id: 6,  no: '06', slug: 'navy-premium',      name: 'Navy Premium',       fit: 'Oversized fit',  gsm: '450 GSM', material: 'Premium cotton', color: 'Navy',           hex: '#1c2438', tags: ['oversized'],          delta: 0,   badge: '' },
-    { id: 7,  no: '07', slug: 'forest-green',      name: 'Forest Green',       fit: 'Oversized fit',  gsm: '450 GSM', material: 'Premium cotton', color: 'Lesní zelená',   hex: '#1f3a2c', tags: ['oversized'],          delta: 0,   badge: '' },
-    { id: 8,  no: '08', slug: 'vintage-black',     name: 'Vintage Black',      fit: 'Oversized fit',  gsm: '450 GSM', material: 'Vintage wash',   color: 'Sepraná černá',  hex: '#2a2a2a', tags: ['oversized', 'wash'],  delta: 100, badge: 'Vintage wash' },
-    { id: 9,  no: '09', slug: 'zip-hoodie',        name: 'Zip Hoodie',         fit: 'Oversized fit',  gsm: '450 GSM', material: 'Premium cotton', color: 'Černá',          hex: '#111111', tags: ['oversized', 'zip'],   delta: 200, badge: 'Zip' },
-    { id: 10, no: '10', slug: 'heavyweight',       name: 'Heavyweight Hoodie', fit: 'Structured fit', gsm: '500 GSM', material: 'Heavy cotton',   color: 'Černá',          hex: '#111111', tags: ['heavy'],              delta: 300, badge: '500 GSM' },
-    { id: 11, no: '11', slug: 'cropped-boxy',      name: 'Cropped Boxy Hoodie',fit: 'Cropped fit',    gsm: '450 GSM', material: 'Premium cotton', color: 'Taupe',          hex: '#6b625a', tags: ['boxy'],               delta: 0,   badge: '' },
-    { id: 12, no: '12', slug: 'signature',         name: 'Signature Hoodie',   fit: 'Oversized fit',  gsm: '450 GSM', material: 'Premium cotton', color: 'Ecru',           hex: '#ece5d6', tags: ['oversized'],          delta: 200, badge: 'Signature' }
+    {
+      "id": 1,
+      "no": "01",
+      "slug": "black-essential",
+      "name": "Black Essential",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Černá",
+      "hex": "#111111",
+      "fit": "Oversized",
+      "texture": "Hutný hladký úplet",
+      "logo": "Bílá mikro výšivka, levá hruď",
+      "desc": "Oversized silueta, hutný hladký úplet z alpaky."
+    },
+    {
+      "id": 2,
+      "no": "02",
+      "slug": "charcoal-sculpt",
+      "name": "Charcoal Sculpt",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Charcoal",
+      "hex": "#3b3b3b",
+      "fit": "Boxy raglan",
+      "texture": "Melanžový úplet",
+      "logo": "Černá 3D výšivka, střed hrudi",
+      "desc": "Boxy raglan silueta, melanžový úplet z alpaky."
+    },
+    {
+      "id": 3,
+      "no": "03",
+      "slug": "chocolate-brown",
+      "name": "Chocolate Brown",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Chocolate",
+      "hex": "#4a2e22",
+      "fit": "Boxy",
+      "texture": "Jemný kompaktní úplet",
+      "logo": "Béžová kurzíva, levá hruď",
+      "desc": "Boxy silueta, jemný kompaktní úplet z alpaky."
+    },
+    {
+      "id": 4,
+      "no": "04",
+      "slug": "cream-minimal",
+      "name": "Cream Minimal",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Krémová",
+      "hex": "#e8e1d3",
+      "fit": "Oversized",
+      "texture": "Kompaktní úplet",
+      "logo": "Oválný znak, levá hruď",
+      "desc": "Oversized silueta, kompaktní úplet z alpaky."
+    },
+    {
+      "id": 5,
+      "no": "05",
+      "slug": "ash-grey",
+      "name": "Ash Grey",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Šedý melír",
+      "hex": "#a9a9a9",
+      "fit": "Raglan",
+      "texture": "Melanžový úplet",
+      "logo": "Černá výšivka, rukáv",
+      "desc": "Raglan silueta, melanžový úplet z alpaky."
+    },
+    {
+      "id": 6,
+      "no": "06",
+      "slug": "navy-premium",
+      "name": "Navy Premium",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Navy",
+      "hex": "#1c2438",
+      "fit": "Longline",
+      "texture": "Hutný jemný úplet",
+      "logo": "Tónovaná výšivka, kapuce",
+      "desc": "Longline silueta, hutný jemný úplet z alpaky."
+    },
+    {
+      "id": 7,
+      "no": "07",
+      "slug": "forest-green",
+      "name": "Forest Green",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Forest",
+      "hex": "#1f3a2c",
+      "fit": "Utility",
+      "texture": "Strukturovaný úplet",
+      "logo": "Geometrická výšivka, hruď",
+      "desc": "Utility silueta, strukturovaný úplet z alpaky."
+    },
+    {
+      "id": 8,
+      "no": "08",
+      "slug": "vintage-black",
+      "name": "Vintage Black",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Černý melír",
+      "hex": "#2b2b2b",
+      "fit": "Relaxed",
+      "texture": "Melanžový úplet",
+      "logo": "Vintage výšivka, hruď",
+      "desc": "Relaxed silueta, melanžový úplet z alpaky."
+    },
+    {
+      "id": 9,
+      "no": "09",
+      "slug": "zip-hoodie",
+      "name": "Zip Hoodie",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Taupe",
+      "hex": "#8a7c6c",
+      "fit": "Oversized zip",
+      "texture": "Kompaktní úplet",
+      "logo": "Tónovaná kurzíva, hruď",
+      "desc": "Oversized zip silueta, kompaktní úplet z alpaky."
+    },
+    {
+      "id": 10,
+      "no": "10",
+      "slug": "heavyweight-hoodie",
+      "name": "Heavyweight Hoodie",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Oatmeal",
+      "hex": "#d9cfbd",
+      "fit": "Sculptural",
+      "texture": "Výrazný hutný úplet",
+      "logo": "Malá výšivka, spodní lem",
+      "desc": "Sculptural silueta, výrazný hutný úplet z alpaky."
+    },
+    {
+      "id": 11,
+      "no": "11",
+      "slug": "cropped-boxy",
+      "name": "Cropped Boxy",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Plum",
+      "hex": "#4e2a3a",
+      "fit": "Cropped boxy",
+      "texture": "Jemný kompaktní úplet",
+      "logo": "Tónovaná výšivka, hruď",
+      "desc": "Cropped boxy silueta, jemný kompaktní úplet z alpaky."
+    },
+    {
+      "id": 12,
+      "no": "12",
+      "slug": "signature-hoodie",
+      "name": "Signature Hoodie",
+      "category": "mikiny",
+      "categoryLabel": "Mikiny",
+      "color": "Ink",
+      "hex": "#1a1a22",
+      "fit": "Panelled",
+      "texture": "Tvarovaný kompaktní úplet",
+      "logo": "Geometrická 3D výšivka, hruď",
+      "desc": "Panelled silueta, tvarovaný kompaktní úplet z alpaky."
+    },
+    {
+      "id": 13,
+      "no": "13",
+      "slug": "indigo-straight",
+      "name": "Indigo Straight",
+      "category": "kalhoty",
+      "categoryLabel": "Kalhoty",
+      "color": "Indigo",
+      "hex": "#24304a",
+      "fit": "Wide straight",
+      "texture": "Hustá keprová tkanina",
+      "logo": "Béžová výšivka, zadní kapsa",
+      "desc": "Wide straight silueta, hustá keprová tkanina z alpaky."
+    },
+    {
+      "id": 14,
+      "no": "14",
+      "slug": "blue-pleat",
+      "name": "Blue Pleat",
+      "category": "kalhoty",
+      "categoryLabel": "Kalhoty",
+      "color": "Světle modrá",
+      "hex": "#9db4cc",
+      "fit": "Baggy",
+      "texture": "Hustá keprová tkanina",
+      "logo": "Navy výšivka, malá kapsa",
+      "desc": "Baggy silueta, hustá keprová tkanina z alpaky."
+    },
+    {
+      "id": 15,
+      "no": "15",
+      "slug": "coal-barrel",
+      "name": "Coal Barrel",
+      "category": "kalhoty",
+      "categoryLabel": "Kalhoty",
+      "color": "Coal",
+      "hex": "#3a3a3a",
+      "fit": "Barrel",
+      "texture": "Hustá keprová tkanina",
+      "logo": "Tónovaná výšivka, zadní kapsa",
+      "desc": "Barrel silueta, hustá keprová tkanina z alpaky."
+    },
+    {
+      "id": 16,
+      "no": "16",
+      "slug": "ecru-carpenter",
+      "name": "Ecru Carpenter",
+      "category": "kalhoty",
+      "categoryLabel": "Kalhoty",
+      "color": "Ecru",
+      "hex": "#ece5d6",
+      "fit": "Carpenter",
+      "texture": "Hustá keprová tkanina",
+      "logo": "Hnědá výšivka, kapsa",
+      "desc": "Carpenter silueta, hustá keprová tkanina z alpaky."
+    },
+    {
+      "id": 17,
+      "no": "17",
+      "slug": "black-wide",
+      "name": "Black Wide",
+      "category": "teplaky",
+      "categoryLabel": "Tepláky",
+      "color": "Černá",
+      "hex": "#111111",
+      "fit": "Wide straight",
+      "texture": "Hutný interlock",
+      "logo": "Bílá výšivka, bok",
+      "desc": "Wide straight silueta, hutný interlock z alpaky."
+    },
+    {
+      "id": 18,
+      "no": "18",
+      "slug": "grey-pleat",
+      "name": "Grey Pleat",
+      "category": "teplaky",
+      "categoryLabel": "Tepláky",
+      "color": "Šedý melír",
+      "hex": "#a9a9a9",
+      "fit": "Tailored relaxed",
+      "texture": "Kompaktní interlock",
+      "logo": "Černá výšivka, bok",
+      "desc": "Tailored relaxed silueta, kompaktní interlock z alpaky."
+    },
+    {
+      "id": 19,
+      "no": "19",
+      "slug": "brown-cuff",
+      "name": "Brown Cuff",
+      "category": "teplaky",
+      "categoryLabel": "Tepláky",
+      "color": "Chocolate",
+      "hex": "#4a2e22",
+      "fit": "Barrel jogger",
+      "texture": "Žebrovaný úplet",
+      "logo": "Béžová kurzíva, bok",
+      "desc": "Barrel jogger silueta, žebrovaný úplet z alpaky."
+    },
+    {
+      "id": 20,
+      "no": "20",
+      "slug": "forest-utility",
+      "name": "Forest Utility",
+      "category": "teplaky",
+      "categoryLabel": "Tepláky",
+      "color": "Forest",
+      "hex": "#1f3a2c",
+      "fit": "Wide cargo",
+      "texture": "Hutný interlock",
+      "logo": "Tónovaná výšivka, bok",
+      "desc": "Wide cargo silueta, hutný interlock z alpaky."
+    },
+    {
+      "id": 21,
+      "no": "21",
+      "slug": "white-essential",
+      "name": "White Essential",
+      "category": "tricka",
+      "categoryLabel": "Trička",
+      "color": "Bílá",
+      "hex": "#f4f4f2",
+      "fit": "Oversized",
+      "texture": "Lehký jemný single jersey",
+      "logo": "Černá výšivka, hruď",
+      "desc": "Oversized silueta, lehký jemný single jersey z alpaky."
+    },
+    {
+      "id": 22,
+      "no": "22",
+      "slug": "ink-boxy",
+      "name": "Ink Boxy",
+      "category": "tricka",
+      "categoryLabel": "Trička",
+      "color": "Ink",
+      "hex": "#1a1a22",
+      "fit": "Boxy",
+      "texture": "Lehký melanžový jersey",
+      "logo": "Tónovaná 3D výšivka, hruď",
+      "desc": "Boxy silueta, lehký melanžový jersey z alpaky."
+    },
+    {
+      "id": 23,
+      "no": "23",
+      "slug": "cream-oval",
+      "name": "Cream Oval",
+      "category": "tricka",
+      "categoryLabel": "Trička",
+      "color": "Krémová",
+      "hex": "#e8e1d3",
+      "fit": "Relaxed",
+      "texture": "Lehký jemný jersey",
+      "logo": "Oválný znak, hruď",
+      "desc": "Relaxed silueta, lehký jemný jersey z alpaky."
+    },
+    {
+      "id": 24,
+      "no": "24",
+      "slug": "navy-cropped",
+      "name": "Navy Cropped",
+      "category": "tricka",
+      "categoryLabel": "Trička",
+      "color": "Navy",
+      "hex": "#1c2438",
+      "fit": "Cropped boxy",
+      "texture": "Jemný kompaktní jersey",
+      "logo": "Tónovaná výšivka, rukáv",
+      "desc": "Cropped boxy silueta, jemný kompaktní jersey z alpaky."
+    }
   ].map(function (p) {
-    p.desc = {
-      1: 'Základ kolekce. Černá oversized mikina s výšivkou looks na hrudi.',
-      2: 'Uhlová mikina s vintage wash úpravou, která jí dává sepraný vzhled.',
-      3: 'Boxy střih, kratší a širší než oversized. Čokoládově hnědá.',
-      4: 'Krémová oversized mikina s tmavou výšivkou looks.',
-      5: 'Šedý melír v oversized střihu. Nejuniverzálnější kus kolekce.',
-      6: 'Tmavě modrá oversized mikina s výšivkou v tónu látky.',
-      7: 'Lesní zelená se světlou výšivkou looks na hrudi.',
-      8: 'Sepraná černá s vintage wash úpravou. Tmavší sestra Washed Charcoal.',
-      9: 'Černá mikina na celý zip v oversized střihu.',
-      10: 'Nejtěžší kus kolekce. 500 GSM a strukturovaný střih, který drží tvar.',
-      11: 'Zkrácená boxy mikina v barvě taupe.',
-      12: 'Ecru mikina s prošitými liniemi na předním dílu a oválným logem.'
-    }[p.id];
-    p.life = 'img/life-' + p.no + '.jpg';
-    p.flat = 'img/flat-' + p.no + '.jpg';
+    var b = 'img/p/' + p.no + '-';
+    p.front = b + '0.jpg'; p.back = b + '1.jpg'; p.detail = b + '2.jpg'; p.life = b + '3.jpg';
+    p.tags = [p.category];
     return p;
   })
 };
