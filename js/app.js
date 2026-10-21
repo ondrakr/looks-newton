@@ -78,7 +78,7 @@
     var body = document.querySelector('[data-cart-body]');
     var foot = document.querySelector('[data-cart-foot]');
     if (!n) {
-      body.innerHTML = '<div class="cart-empty"><p>Košík je zatím prázdný.</p><a class="btn btn--dark" href="#/" data-close-cart data-scroll="shop">Prohlédnout kolekci</a></div>';
+      body.innerHTML = '<div class="cart-empty"><p>Košík je zatím prázdný.</p><a class="btn btn--light" href="#/" data-close-cart data-scroll="shop">Prohlédnout kolekci</a></div>';
       foot.innerHTML = '';
       return;
     }
@@ -86,7 +86,7 @@
     foot.innerHTML =
       '<div class="sum-row"><span>Mezisoučet</span><strong>' + money(subtotal()) + '</strong></div>' +
       '<p class="muted small">Doprava se spočítá v pokladně.</p>' +
-      '<a class="btn btn--dark btn--block" href="#/pokladna" data-close-cart>Pokračovat k pokladně ' + icons.arrow + '</a>';
+      '<a class="btn btn--light btn--block" href="#/pokladna" data-close-cart>Pokračovat k pokladně ' + icons.arrow + '</a>';
   }
 
   function lineItem(c) {
@@ -106,6 +106,18 @@
         '</div>' +
       '</div>' +
     '</div>';
+  }
+
+  // ---------- brand prvky z krabice ----------
+  function seal() {
+    return '<div class="seal" aria-hidden="true"><div class="seal__inner"><span class="script">LS</span><span class="caps">Prague</span></div></div>';
+  }
+  function pattern(rows, cols) {
+    var out = '';
+    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+      out += (r + c) % 2 === 0 || cols === 2 ? '<span class="script">Looks Studio</span>' : '<span class="caps">For the look</span>';
+    }
+    return '<div class="pattern" aria-hidden="true">' + out + '</div>';
   }
 
   // ---------- views ----------
@@ -129,26 +141,34 @@
 
   function viewHome() {
     var list = D.PRODUCTS.filter(function (p) { return state.filter === 'all' || p.tags.indexOf(state.filter) >= 0; });
-    var ticker = 'Oversized fit · 450 GSM · Vintage wash · Premium cotton · Navrženo v Praze · ';
+    var tickItems = ['Oversized fit', '450 GSM', 'Vintage wash', 'Premium cotton', 'Prague'];
+    var tick = tickItems.map(function (t) { return '<span class="script">Looks Studio</span><span class="caps">' + t + '</span>'; }).join('');
     return '' +
     '<section class="hero">' +
+      pattern(5, 3) +
       '<div class="wrap hero__inner">' +
-        '<div class="hero__text">' +
-          '<p class="eyebrow">Drop 01 · 12 mikin · Praha</p>' +
-          '<h1 class="hero__title">Looks<em>For the looks</em></h1>' +
-          '<p class="hero__lead">Prémiové mikiny 450–500 GSM. Oversized, boxy i vintage wash. Různé styly, stejný mindset.</p>' +
-          '<div class="hero__cta"><a class="btn btn--accent" href="#/" data-scroll="shop">Nakupovat kolekci ' + icons.arrow + '</a>' +
-          '<a class="btn btn--ghost" href="#/" data-scroll="lookbook">Lookbook</a></div>' +
+        '<div class="frame">' +
+          '<p class="eyebrow">Drop 01 · 12 mikin</p>' +
+          '<h1 class="script hero__logo">Looks Studio</h1>' +
+          '<span class="rule" aria-hidden="true"></span>' +
+          '<p class="caps">For the look</p>' +
+          seal() +
         '</div>' +
-        '<div class="hero__pics">' +
-          '<img src="img/life-01.jpg" alt="Model v mikině Black Essential v pražských ulicích">' +
-          '<img src="img/life-04.jpg" alt="Modelka v mikině Cream Minimal">' +
+        '<div class="hero__foot">' +
+          '<p class="hero__lead">Prémiové mikiny 450–500 GSM z Prahy. Oversized, boxy i vintage wash. Různé styly, stejný mindset.</p>' +
+          '<div class="hero__cta"><a class="btn btn--light" href="#/" data-scroll="shop">Nakupovat kolekci ' + icons.arrow + '</a>' +
+          '<a class="btn btn--line" href="#/" data-scroll="lookbook">Lookbook</a></div>' +
         '</div>' +
       '</div>' +
+      '<div class="hero__pics">' +
+        '<img src="img/life-01.jpg" alt="Model v mikině Black Essential v pražských ulicích">' +
+        '<img src="img/life-04.jpg" alt="Modelka v mikině Cream Minimal">' +
+        '<img src="img/life-12.jpg" alt="Model v mikině Signature Hoodie">' +
+      '</div>' +
     '</section>' +
-    '<div class="ticker" aria-hidden="true"><div class="ticker__track">' + ticker.repeat(6) + '</div></div>' +
+    '<div class="ticker" aria-hidden="true"><div class="ticker__track">' + tick + tick + '</div></div>' +
     '<section class="wrap section" id="shop">' +
-      '<div class="section__head"><h2 class="h2">Kolekce</h2><span class="muted">' + list.length + ' ' + (list.length === 1 ? 'mikina' : list.length < 5 ? 'mikiny' : 'mikin') + '</span></div>' +
+      '<div class="section__head"><div><p class="eyebrow">Drop 01</p><h2 class="h2">Kolekce <em>mikin</em></h2></div><span class="count">' + list.length + ' / 12</span></div>' +
       '<div class="chips" role="group" aria-label="Filtr kolekce">' +
         D.FILTERS.map(function (f) {
           return '<button type="button" class="chip' + (state.filter === f.id ? ' is-on' : '') + '" aria-pressed="' + (state.filter === f.id) + '" data-filter="' + f.id + '">' + f.label + '</button>';
@@ -158,21 +178,22 @@
     '</section>' +
     '<section class="dark" id="lookbook">' +
       '<div class="wrap section">' +
-        '<div class="section__head"><h2 class="h2">Různé styly.<br>Stejný mindset.</h2><p class="muted-dark">Lookbook · Praha</p></div>' +
+        '<div class="section__head"><div><p class="eyebrow">Lookbook · Praha</p><h2 class="h2">Různé styly.<br>Stejný <em>mindset.</em></h2></div></div>' +
         '<div class="look">' +
           '<img src="img/life-06.jpg" alt="Navy Premium na Starém Městě" loading="lazy">' +
           '<img src="img/life-11.jpg" alt="Cropped Boxy Hoodie" loading="lazy">' +
           '<img src="img/life-09.jpg" alt="Zip Hoodie" loading="lazy">' +
         '</div>' +
-        '<figure class="strip"><img src="img/kolekce.jpg" alt="Celá kolekce LOOKS — 12 mikin vedle sebe" loading="lazy"><figcaption class="muted-dark">Celá kolekce — 12 mikin</figcaption></figure>' +
+        '<figure class="strip"><img src="img/kolekce.jpg" alt="Celá kolekce Looks Studio — 12 mikin vedle sebe" loading="lazy"><figcaption class="caps">Celá kolekce · 12 mikin</figcaption></figure>' +
       '</div>' +
     '</section>' +
     '<section class="wrap section about" id="about">' +
-      '<div><p class="eyebrow eyebrow--dark">O nás</p><h2 class="h2">LOOKS Studio</h2></div>' +
-      '<div class="about__text"><p>Vlastní oblečení z Prahy. Těžká bavlna, čistý střih a jemná výšivka <em class="serif">looks</em> na hrudi — mikiny, které vypadají dobře každý den.</p>' +
+      '<div class="about__brand">' + pattern(4, 2) + seal() + '</div>' +
+      '<div class="about__text"><p class="eyebrow">Studio · Praha</p>' +
+      '<p>Vlastní oblečení z Prahy. Těžká bavlna, čistý střih a jemná výšivka <em>looks</em> na hrudi. Každá mikina přijde v černé krabici s naší pečetí.</p>' +
       '<form class="news" data-news>' +
-        '<label for="news-email">Buď první u dalšího dropu</label>' +
-        '<div class="news__row"><input id="news-email" type="email" required placeholder="tvuj@email.cz" autocomplete="email"><button class="btn btn--dark" type="submit">Odebírat</button></div>' +
+        '<label class="eyebrow" for="news-email">Buď první u dalšího dropu</label>' +
+        '<div class="news__row"><input id="news-email" type="email" required placeholder="tvuj@email.cz" autocomplete="email"><button class="btn btn--light" type="submit">Odebírat</button></div>' +
       '</form></div>' +
     '</section>';
   }
@@ -194,22 +215,22 @@
           '</div>' +
         '</div>' +
         '<div class="pdp__info">' +
-          '<p class="eyebrow eyebrow--dark">' + p.no + ' / 12</p>' +
+          '<p class="eyebrow">' + p.no + ' / 12</p>' +
           '<h1 class="pdp__title">' + esc(p.name) + '</h1>' +
           '<p class="pdp__price">' + money(price(p)) + '</p>' +
           '<div class="tags"><span>' + esc(p.fit) + '</span><span>' + p.gsm + '</span><span>' + esc(p.material) + '</span></div>' +
           '<p class="pdp__color"><span class="dot" style="background:' + p.hex + '"></span>Barva: <strong>' + esc(p.color) + '</strong></p>' +
-          '<fieldset class="sizes"><legend>Velikost</legend><div class="sizes__row">' +
+          '<fieldset class="sizes"><legend class="eyebrow">Velikost</legend><div class="sizes__row">' +
             D.SIZES.map(function (s) {
               return '<button type="button" class="size' + (sel === s ? ' is-on' : '') + '" aria-pressed="' + (sel === s) + '" data-size="' + s + '">' + s + '</button>';
             }).join('') +
           '</div>' + (err ? '<p class="error" role="alert">Vyber prosím velikost.</p>' : '') + '</fieldset>' +
-          '<button type="button" class="btn btn--dark btn--block btn--lg" data-add="' + p.id + '">Přidat do košíku · ' + money(price(p)) + '</button>' +
+          '<button type="button" class="btn btn--light btn--block btn--lg" data-add="' + p.id + '">Přidat do košíku · ' + money(price(p)) + '</button>' +
           '<dl class="specs">' +
             '<div><dt>Střih</dt><dd>' + esc(p.fit) + '</dd></div>' +
             '<div><dt>Gramáž</dt><dd>' + p.gsm + '</dd></div>' +
             '<div><dt>Materiál</dt><dd>' + esc(p.material) + '</dd></div>' +
-            '<div><dt>Detail</dt><dd>Výšivka <em class="serif">looks</em> na hrudi</dd></div>' +
+            '<div><dt>Detail</dt><dd>Výšivka <em>looks</em> na hrudi</dd></div>' +
             '<div><dt>Původ</dt><dd>Navrženo v Praze</dd></div>' +
           '</dl>' +
         '</div>' +
@@ -225,7 +246,7 @@
     var ship = D.SHIPPING.find(function (s) { return s.id === state.ship; });
     var sub = subtotal(), total = sub + (count() ? ship.price : 0);
     if (!count()) {
-      return '<section class="wrap center-box"><h1 class="h2">Košík je prázdný</h1><p class="muted">Vyber si něco z kolekce a vrať se sem.</p><a class="btn btn--dark" href="#/" data-scroll="shop">Zpět do obchodu</a></section>';
+      return '<section class="wrap center-box"><h1 class="h2">Košík je prázdný</h1><p class="muted">Vyber si něco z kolekce a vrať se sem.</p><a class="btn btn--light" href="#/" data-scroll="shop">Zpět do obchodu</a></section>';
     }
     function opt(group, o, on) {
       return '<label class="opt' + (on ? ' is-on' : '') + '">' +
@@ -274,7 +295,7 @@
           '<div class="sum-row"><span>Mezisoučet</span><span>' + money(sub) + '</span></div>' +
           '<div class="sum-row"><span>Doprava · ' + ship.label + '</span><span>' + (ship.price ? money(ship.price) : 'Zdarma') + '</span></div>' +
           '<div class="sum-row sum-row--total"><span>Celkem</span><strong>' + money(total) + '</strong></div>' +
-          '<button type="submit" form="co-form-id" class="btn btn--accent btn--block btn--lg" data-pay>Zaplatit ' + money(total) + '</button>' +
+          '<button type="submit" form="co-form-id" class="btn btn--light btn--block btn--lg" data-pay>Zaplatit ' + money(total) + '</button>' +
           '<p class="muted small center">Prototyp — žádná platba neproběhne.</p>' +
         '</aside>' +
       '</div>' +
@@ -290,17 +311,18 @@
     var o = state.lastOrder;
     if (!o) return viewNotFound();
     return '<section class="wrap center-box">' +
-      '<div class="done-icon">' + icons.check + '</div>' +
-      '<p class="eyebrow eyebrow--dark">Objednávka ' + o.no + '</p>' +
+      seal() +
+      '<p class="eyebrow">Objednávka ' + o.no + '</p>' +
       '<h1 class="pdp__title">Díky, máš to.</h1>' +
+      '<p class="caps">For the look</p>' +
       '<p class="muted">Objednávku jsme přijali. Potvrzení ti přijde na e-mail' + (o.email ? ' <strong>' + esc(o.email) + '</strong>' : '') + '.</p>' +
       '<p>Celkem: <strong>' + money(o.total) + '</strong></p>' +
-      '<a class="btn btn--dark" href="#/">Zpět do obchodu</a>' +
+      '<a class="btn btn--light" href="#/">Zpět do obchodu</a>' +
     '</section>';
   }
 
   function viewNotFound() {
-    return '<section class="wrap center-box"><h1 class="h2">Tady nic není</h1><a class="btn btn--dark" href="#/">Domů</a></section>';
+    return '<section class="wrap center-box"><h1 class="h2">Tady nic není</h1><a class="btn btn--light" href="#/">Domů</a></section>';
   }
 
   // ---------- router ----------

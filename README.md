@@ -1,4 +1,4 @@
-# LOOKS — eshop (prototyp)
+# Looks Studio — eshop (prototyp)
 
 Klikací prototyp eshopu LOOKS Studio: kolekce 12 mikin, detail produktu, košík a pokladna.
 Čistý HTML/CSS/JS, bez buildu a bez závislostí. Objednávky se nikam neodesílají.
